@@ -164,7 +164,7 @@ def show_popup(clicked_letter):
         tk.Label(top, text="Undo", font=("Arial", 15)).place(x=120, y=60)
     elif clicked_letter== "C":
         top.title("Copy")
-        tk.Label(top, text="Text Copied", font=("Arial", 15)).place(x=120, y=60)
+        tk.Label(top, text="Text Copied", font=("Arial", 15)).place(x=100, y=60)
     elif clicked_letter== "R":
         top.title("Redo")
         tk.Label(top, text="Redo", font=("Arial", 15)).place(x=120, y=60)
