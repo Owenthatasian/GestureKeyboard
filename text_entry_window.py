@@ -153,19 +153,18 @@ def gesture_point_analysis(gesture_points, last_clicked_character):
     if len(gesture_points)< 20:
         return "NOTALINE"
 
-    x_cords = [point.x for point in gesture_points]
-    # y_cords = [point.y for point in gesture_points]
+    y_cords = [point.y for point in gesture_points]
 
-    if max(x_cords) - min(x_cords) < 50 and last_clicked_character == "S":
+    if max(y_cords) - min(y_cords) < 50 and last_clicked_character == "S":
         show_popup("S")
         return
-    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "U":
+    if max(y_cords) - min(y_cords) < 50  and last_clicked_character == "U":
         show_popup("U")
         return
-    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "R":
+    if max(y_cords) - min(y_cords) < 50  and last_clicked_character == "R":
         show_popup("R")
         return
-    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "C":
+    if max(y_cords) - min(y_cords) < 50  and last_clicked_character == "C":
         show_popup("C")
         return
     else:
