@@ -63,12 +63,25 @@ class Application(tk.Frame):
         self.line_tag = []
 
     # when users select a word candidate from the four labels in the middle frame
+    # def select_word_candidate(self, event):
+    #     btn = event.widget  # event.widget is the widget that called the event
+    #     #self.label_show_text.config(text=btn.cget('text'))
+    #     self.text.insert(tk.END, btn.cget('text')) # show it to the text widget
+    #     for i in range(len(self.label_word_candidates)): # clear the content of all word labels
+    #         self.label_word_candidates[i].config(text='')
+
     def select_word_candidate(self, event):
-        btn = event.widget  # event.widget is the widget that called the event
-        #self.label_show_text.config(text=btn.cget('text'))
-        self.text.insert(tk.END, btn.cget('text')) # show it to the text widget
-        for i in range(len(self.label_word_candidates)): # clear the content of all word labels
+        btn = event.widget
+        selected_word = btn.cget('text')
+
+        if selected_word.lower() == "save":
+            show_save_popup()
+        else:
+            self.text.insert(tk.END, selected_word)
+
+        for i in range(len(self.label_word_candidates)):
             self.label_word_candidates[i].config(text='')
+
 
     # press mouse left button
     def mouse_left_button_press(self, event):
@@ -132,6 +145,13 @@ class Application(tk.Frame):
         tk.Label(top, text=display_text, font=("Arial", 15)).place(x=120, y=130)
 
         
+
+def show_save_popup():
+    top = tk.Toplevel(master)
+    top.geometry("300x100")
+    top.title("Save Confirmation")
+    tk.Label(top, text="File has been saved!", font=("Arial", 15)).pack()
+
 
 if __name__ == '__main__':
     master = tk.Tk()
