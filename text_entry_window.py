@@ -68,14 +68,13 @@ class Application(tk.Frame):
         # double click mouse
         self.canvas_keyboard.bind("<Double-Button-1>", self.mouse_double_click)
 
+    # when a double click is triggered, this function will trigger a popup window
     def mouse_double_click(self, event):
         character = self.label_word_candidates[0].cget("text")
         character += self.keyboard.get_key_pressed()
-        # self.open_popout(character)
+
         show_popup(character)
 
-        # self.label_word_candidates[0].config(text=character)
-        print(character)
 
 
 
@@ -86,21 +85,6 @@ class Application(tk.Frame):
         self.text.insert(tk.END, btn.cget('text')) # show it to the text widget
         for i in range(len(self.label_word_candidates)): # clear the content of all word labels
             self.label_word_candidates[i].config(text='')
-
-    # def select_word_candidate(self, event):
-    #     btn = event.widget
-    #     selected_word = btn.cget('text')
-    #
-    #     if selected_word.lower() == "save":
-    #         show_save_popup()
-    #     else:
-    #         self.text.insert(tk.END, selected_word)
-    #
-    #     for i in range(len(self.label_word_candidates)):
-    #         self.label_word_candidates[i].config(text='')
-
-
-
 
 
     # press mouse left button
@@ -158,32 +142,7 @@ class Application(tk.Frame):
         self.keyboard.mouse_move_left_button_down(event.x, event.y)
         self.gesture_points.append(Point(event.x, event.y)) # store all cursor movement points
 
-    # def open_popout(clicked_letter):
-    #     top = tk.Toplevel(master)
-    #     top.geometry("300x270")
-    #     if clicked_letter== "S":
-    #         top.title("Save")
-    #         tk.Label(top, text="Your text has been saved", font=("Arial", 15)).pack
-    #     if clicked_letter== "U":
-    #         top.title("Undo")
-    #         tk.Label(top, text="Undo", font=("Arial", 15)).pack
-    #     if clicked_letter== "C":
-    #         top.title("Copy")
-    #         tk.Label(top, text="Text Copied", font=("Arial", 15)).pack
-    #     if clicked_letter== "R":
-    #         top.title("Redo")
-    #         tk.Label(top, text="Redo", font=("Arial", 15)).pack
-
-        # top.title("test title")
-        # tk.Label(top, text=display_text, font=("Arial", 15)).pack
-
-        
-
-# def show_save_popup():
-#     top = tk.Toplevel(master)
-#     top.geometry("300x100")
-#     top.title("Save Confirmation")
-#     tk.Label(top, text="File has been saved!", font=("Arial", 15)).pack()
+# show a popup window depending on what the key pressed is
 def show_popup(clicked_letter):
     top = tk.Toplevel(master)
     top.geometry("300x170")
@@ -211,7 +170,6 @@ if __name__ == '__main__':
     master.geometry(str(window_width) + 'x' + str(window_height))  # master.geometry('500x600')
     master.resizable(0, 0)  # can not change the size of the window
     app = Application(window_width, window_height, master=master)
-    # open_popout()
     app.mainloop()
     # mainloop() tells Python to run the Tkinter event loop. This method listens for events, such as button clicks or keypresses,
     # and blocks any code that comes after it from running until the window it's called on is closed.
