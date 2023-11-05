@@ -105,15 +105,9 @@ class Application(tk.Frame):
         # print(self.gesture_points)
         self.keyboard.key_release(event.x, event.y)
         result = self.word_recognizer.recognize(self.gesture_points)
-        # print(self.gesture_points)
-        # print(result)
 
         # see which gesture the line refers to
-        command_letter = gesture_point_analysis(self.gesture_points, self.last_clicked_character)
-        # print(self.last_clicked_character)
-        # print(self.gesture_points)
-        # display the pop up window
-        # show_popup(command_letter)
+        gesture_point_analysis(self.gesture_points, self.last_clicked_character)
 
         if len(result) > 0:
             for i in range(len(result)):
@@ -160,24 +154,23 @@ def gesture_point_analysis(gesture_points, last_clicked_character):
         return "NOTALINE"
 
     x_cords = [point.x for point in gesture_points]
-    y_cords = [point.y for point in gesture_points]
-    print(x_cords)
-    print(type(gesture_points))
-    print(type(x_cords[2]))
-    print(last_clicked_character)
-    print(type(last_clicked_character))
+    # y_cords = [point.y for point in gesture_points]
 
-
-    if all(cord < 123  for cord in x_cords) and last_clicked_character == "S":
+    if max(x_cords) - min(x_cords) < 50 and last_clicked_character == "S":
         show_popup("S")
-    if all( 123 < cord < 246 for cord in x_cords) and last_clicked_character == "U":
+        return
+    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "U":
         show_popup("U")
-    if all( 246< cord < 369 for cord in x_cords) and last_clicked_character == "R":
+        return
+    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "R":
         show_popup("R")
-    if all( 369< cord for cord in x_cords) and last_clicked_character == "C":
+        return
+    if max(x_cords) - min(x_cords) < 50  and last_clicked_character == "C":
         show_popup("C")
+        return
     else:
         show_popup("NOTACOMMAND")
+        return
 
 
 # display a popup window that changes based on which command is triggered
