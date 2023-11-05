@@ -66,12 +66,14 @@ class Application(tk.Frame):
         self.line_tag = []
 
         # mouse double click
-        self.canvas_keyboard.bind("<Double-Button-1", self.mouse_double_click)
+        self.canvas_keyboard.bind("<Double-Button-1>", self.mouse_double_click)
 
+        self.last_clicked_character = ''
     def mouse_double_click(self, event):
         characters = self.label_word_candidates[0].cget("text")
-        characters += self.keyboard.get_key_pressed()
-
+        characters = self.keyboard.get_key_pressed()
+        self.last_clicked_character = characters
+        # return characters
 
     # when users select a word candidate from the four labels in the middle frame
     def select_word_candidate(self, event):
@@ -86,6 +88,10 @@ class Application(tk.Frame):
         self.cursor_move_position_list.append([event.x, event.y, 0])  # store x, y, segment tag
         self.keyboard.key_press(event.x, event.y)
         self.gesture_points.clear()
+
+        characters = self.keyboard.get_key_pressed()
+        self.last_clicked_character = characters
+        # self.last_clicked_character = characters
 
         #self.gesture_points.append(Point(event.x, event.y))
 
@@ -103,9 +109,11 @@ class Application(tk.Frame):
         # print(result)
 
         # see which gesture the line refers to
-        command_letter = gesture_point_analysis(self.gesture_points)
+        command_letter = gesture_point_analysis(self.gesture_points, self.last_clicked_character)
+        # print(self.last_clicked_character)
+        # print(self.gesture_points)
         # display the pop up window
-        show_popup(command_letter)
+        # show_popup(command_letter)
 
         if len(result) > 0:
             for i in range(len(result)):
@@ -145,30 +153,46 @@ class Application(tk.Frame):
         self.gesture_points.append(Point(event.x, event.y)) # store all cursor movement points
 
 # See if the gesture draw is a valid gesture and if yes, which gesture it is
-def gesture_point_analysis(gesture_points):
+def gesture_point_analysis(gesture_points, last_clicked_character):
 
-    if all( 7< item.x < 123  for item in gesture_points):
-        return "S"
-    elif all( 132 < item.x < 246 for item in gesture_points):
-        return "U"
-    elif all( 246< item.x < 369 for item in gesture_points):
-        return "R"
-    elif all( 377< item.x < 490 for item in gesture_points):
-        return "C"
-    return "NOTACOMMAND"
+    # see if this line is long enough
+    if len(gesture_points)< 20:
+        return "NOTALINE"
+
+    x_cords = [point.x for point in gesture_points]
+    y_cords = [point.y for point in gesture_points]
+    print(x_cords)
+    print(type(gesture_points))
+    print(type(x_cords[2]))
+    print(last_clicked_character)
+    print(type(last_clicked_character))
+
+
+    if all(cord < 123  for cord in x_cords) and last_clicked_character == "S":
+        show_popup("S")
+    if all( 123 < cord < 246 for cord in x_cords) and last_clicked_character == "U":
+        show_popup("U")
+    if all( 246< cord < 369 for cord in x_cords) and last_clicked_character == "R":
+        show_popup("R")
+    if all( 369< cord for cord in x_cords) and last_clicked_character == "C":
+        show_popup("C")
+    else:
+        show_popup("NOTACOMMAND")
 
 
 # display a popup window that changes based on which command is triggered
 def show_popup(clicked_letter):
+    if clicked_letter == "NOTALINE":
+        return
     top = tk.Toplevel(master)
     top.geometry("300x170")
-    if clicked_letter== "S":
+    if clicked_letter == "S":
         top.title("Save")
         tk.Label(top, text="Your text has been saved", font=("Arial", 15)).place(x=30, y=60)
-    elif clicked_letter== "U":
+    elif clicked_letter == "U":
         top.title("Undo")
         tk.Label(top, text="Undo", font=("Arial", 15)).place(x=120, y=60)
-    elif clicked_letter== "C":
+    elif clicked_letter == "C":
         top.title("Copy")
         tk.Label(top, text="Text Copied", font=("Arial", 15)).place(x=120, y=60)
     elif clicked_letter== "R":
@@ -180,6 +204,8 @@ def show_popup(clicked_letter):
 
 
 if __name__ == '__main__':
+
+    global last_letter
     master = tk.Tk()
     window_width = 500
     window_height = 600
