@@ -66,7 +66,7 @@ class Application(tk.Frame):
         self.line_tag = []
 
         # double click mouse
-        self.canvas_keyboard.bind("<Double-Button-1>", self.mouse_double_click)
+        # self.canvas_keyboard.bind("<Double-Button-1>", self.mouse_double_click)
 
     def mouse_double_click(self, event):
         character = self.label_word_candidates[0].cget("text")
@@ -76,6 +76,9 @@ class Application(tk.Frame):
 
         # self.label_word_candidates[0].config(text=character)
         print(character)
+
+
+
 
 
 
@@ -118,9 +121,16 @@ class Application(tk.Frame):
         previous_y = self.cursor_move_position_list[-1][1]
         line_tag = self.canvas_keyboard.create_line(previous_x, previous_y, event.x, event.y)
         self.cursor_move_position_list.append([event.x, event.y, line_tag])
-
+        # print(self.gesture_points)
         self.keyboard.key_release(event.x, event.y)
         result = self.word_recognizer.recognize(self.gesture_points)
+        # print(self.gesture_points)
+        # print(result)
+
+        # see which gesture the line refers to
+        command_letter = gesture_point_analysis(self.gesture_points)
+        show_popup(command_letter)
+
         if len(result) > 0:
             for i in range(len(result)):
                 if i < len(self.label_word_candidates):
@@ -184,6 +194,23 @@ class Application(tk.Frame):
 #     top.geometry("300x100")
 #     top.title("Save Confirmation")
 #     tk.Label(top, text="File has been saved!", font=("Arial", 15)).pack()
+
+def gesture_point_analysis(gesture_points):
+
+
+
+    for item in gesture_points:
+        if item.y <= 8 or 47<= item.y <=56 or 95 <= item.y <= 104 or 145 <= item.y <= 153 or item.y > 191:
+            return "NOTACOMMAND"
+        if 8 < item.y < 47:
+            return "S"
+        elif 56 < item.y < 95:
+            return "U"
+        elif 104 < item.y < 145:
+            return "R"
+        elif 153< item.y < 191:
+            return "C"
+
 def show_popup(clicked_letter):
     top = tk.Toplevel(master)
     top.geometry("300x170")
@@ -211,7 +238,6 @@ if __name__ == '__main__':
     master.geometry(str(window_width) + 'x' + str(window_height))  # master.geometry('500x600')
     master.resizable(0, 0)  # can not change the size of the window
     app = Application(window_width, window_height, master=master)
-    # open_popout()
     app.mainloop()
     # mainloop() tells Python to run the Tkinter event loop. This method listens for events, such as button clicks or keypresses,
     # and blocks any code that comes after it from running until the window it's called on is closed.
