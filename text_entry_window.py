@@ -141,13 +141,13 @@ class Application(tk.Frame):
 # See if the gesture draw is a valid gesture and if yes, which gesture it is
 def gesture_point_analysis(gesture_points):
 
-    if all( 8< item.y < 47 for item in gesture_points):
+    if all( 7< item.x < 123  for item in gesture_points):
         return "S"
-    elif all( 56< item.y < 95 for item in gesture_points):
+    elif all( 132 < item.x < 246 for item in gesture_points):
         return "U"
-    elif all( 104< item.y < 145 for item in gesture_points):
+    elif all( 246< item.x < 369 for item in gesture_points):
         return "R"
-    elif all( 153< item.y < 191 for item in gesture_points):
+    elif all( 377< item.x < 490 for item in gesture_points):
         return "C"
     return "NOTACOMMAND"
 
