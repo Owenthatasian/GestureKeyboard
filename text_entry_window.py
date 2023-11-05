@@ -197,19 +197,27 @@ class Application(tk.Frame):
 
 def gesture_point_analysis(gesture_points):
 
+    if all( 8< item.y < 47 for item in gesture_points):
+        return "S"
+    elif all( 56< item.y < 95 for item in gesture_points):
+        return "U"
+    elif all( 104< item.y < 145 for item in gesture_points):
+        return "R"
+    elif all( 153< item.y < 191 for item in gesture_points):
+        return "C"
+    return "NOTACOMMAND"
 
-
-    for item in gesture_points:
-        if item.y <= 8 or 47<= item.y <=56 or 95 <= item.y <= 104 or 145 <= item.y <= 153 or item.y > 191:
-            return "NOTACOMMAND"
-        if 8 < item.y < 47:
-            return "S"
-        elif 56 < item.y < 95:
-            return "U"
-        elif 104 < item.y < 145:
-            return "R"
-        elif 153< item.y < 191:
-            return "C"
+    # for item in gesture_points:
+    #     if item.y <= 8 or 47<= item.y <=56 or 95 <= item.y <= 104 or 145 <= item.y <= 153 or item.y > 191:
+    #         return "NOTACOMMAND"
+    #     if 8 < item.y < 47:
+    #         return "S"
+    #     elif 56 < item.y < 95:
+    #         return "U"
+    #     elif 104 < item.y < 145:
+    #         return "R"
+    #     elif 153< item.y < 191:
+    #         return "C"
 
 def show_popup(clicked_letter):
     top = tk.Toplevel(master)
