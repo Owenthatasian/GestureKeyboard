@@ -65,6 +65,12 @@ class Application(tk.Frame):
         # store the tag for each segment of the drawn gesture
         self.line_tag = []
 
+        # mouse double click
+        self.canvas_keyboard.bind("<Double-Button-1", self.mouse_double_click)
+
+    def mouse_double_click(self, event):
+        characters = self.label_word_candidates[0].cget("text")
+        characters += self.keyboard.get_key_pressed()
 
 
     # when users select a word candidate from the four labels in the middle frame
