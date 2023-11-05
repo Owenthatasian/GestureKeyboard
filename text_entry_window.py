@@ -65,21 +65,6 @@ class Application(tk.Frame):
         # store the tag for each segment of the drawn gesture
         self.line_tag = []
 
-        # double click mouse
-        # self.canvas_keyboard.bind("<Double-Button-1>", self.mouse_double_click)
-
-    def mouse_double_click(self, event):
-        character = self.label_word_candidates[0].cget("text")
-        character += self.keyboard.get_key_pressed()
-        # self.open_popout(character)
-        show_popup(character)
-
-        # self.label_word_candidates[0].config(text=character)
-        print(character)
-
-
-
-
 
 
     # when users select a word candidate from the four labels in the middle frame
@@ -89,22 +74,6 @@ class Application(tk.Frame):
         self.text.insert(tk.END, btn.cget('text')) # show it to the text widget
         for i in range(len(self.label_word_candidates)): # clear the content of all word labels
             self.label_word_candidates[i].config(text='')
-
-    # def select_word_candidate(self, event):
-    #     btn = event.widget
-    #     selected_word = btn.cget('text')
-    #
-    #     if selected_word.lower() == "save":
-    #         show_save_popup()
-    #     else:
-    #         self.text.insert(tk.END, selected_word)
-    #
-    #     for i in range(len(self.label_word_candidates)):
-    #         self.label_word_candidates[i].config(text='')
-
-
-
-
 
     # press mouse left button
     def mouse_left_button_press(self, event):
@@ -129,6 +98,7 @@ class Application(tk.Frame):
 
         # see which gesture the line refers to
         command_letter = gesture_point_analysis(self.gesture_points)
+        # display the pop up window
         show_popup(command_letter)
 
         if len(result) > 0:
@@ -168,33 +138,7 @@ class Application(tk.Frame):
         self.keyboard.mouse_move_left_button_down(event.x, event.y)
         self.gesture_points.append(Point(event.x, event.y)) # store all cursor movement points
 
-    # def open_popout(clicked_letter):
-    #     top = tk.Toplevel(master)
-    #     top.geometry("300x270")
-    #     if clicked_letter== "S":
-    #         top.title("Save")
-    #         tk.Label(top, text="Your text has been saved", font=("Arial", 15)).pack
-    #     if clicked_letter== "U":
-    #         top.title("Undo")
-    #         tk.Label(top, text="Undo", font=("Arial", 15)).pack
-    #     if clicked_letter== "C":
-    #         top.title("Copy")
-    #         tk.Label(top, text="Text Copied", font=("Arial", 15)).pack
-    #     if clicked_letter== "R":
-    #         top.title("Redo")
-    #         tk.Label(top, text="Redo", font=("Arial", 15)).pack
-
-        # top.title("test title")
-        # tk.Label(top, text=display_text, font=("Arial", 15)).pack
-
-        
-
-# def show_save_popup():
-#     top = tk.Toplevel(master)
-#     top.geometry("300x100")
-#     top.title("Save Confirmation")
-#     tk.Label(top, text="File has been saved!", font=("Arial", 15)).pack()
-
+# See if the gesture draw is a valid gesture and if yes, which gesture it is
 def gesture_point_analysis(gesture_points):
 
     if all( 8< item.y < 47 for item in gesture_points):
@@ -207,18 +151,8 @@ def gesture_point_analysis(gesture_points):
         return "C"
     return "NOTACOMMAND"
 
-    # for item in gesture_points:
-    #     if item.y <= 8 or 47<= item.y <=56 or 95 <= item.y <= 104 or 145 <= item.y <= 153 or item.y > 191:
-    #         return "NOTACOMMAND"
-    #     if 8 < item.y < 47:
-    #         return "S"
-    #     elif 56 < item.y < 95:
-    #         return "U"
-    #     elif 104 < item.y < 145:
-    #         return "R"
-    #     elif 153< item.y < 191:
-    #         return "C"
 
+# display a popup window that changes based on which command is triggered
 def show_popup(clicked_letter):
     top = tk.Toplevel(master)
     top.geometry("300x170")
