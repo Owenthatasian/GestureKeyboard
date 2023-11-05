@@ -133,4 +133,6 @@ if __name__ == '__main__':
     master.geometry(str(window_width) + 'x' + str(window_height))  # master.geometry('500x600')
     master.resizable(0, 0)  # can not change the size of the window
     app = Application(window_width, window_height, master=master)
-    app.mainloop()  # mainloop() tells Python to run the Tkinter event loop. This method listens for events, such as button clicks or keypresses, and blocks any code that comes after it from running until the window it's called on is closed.
+    app.mainloop()
+    # mainloop() tells Python to run the Tkinter event loop. This method listens for events, such as button clicks or keypresses,
+    # and blocks any code that comes after it from running until the window it's called on is closed.
