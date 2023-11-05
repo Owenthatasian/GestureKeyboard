@@ -125,11 +125,13 @@ class Application(tk.Frame):
         self.keyboard.mouse_move_left_button_down(event.x, event.y)
         self.gesture_points.append(Point(event.x, event.y)) # store all cursor movement points
 
-def open_popout():
-    top = tk.Toplevel(master)
-    top.geometry("300x270")
-    top.title("test title")
-    tk.Label(top, text="Testtext", font=("Arial", 15)).place(x=120, y=130)
+    def open_popout(display_text):
+        top = tk.Toplevel(master)
+        top.geometry("300x270")
+        top.title("test title")
+        tk.Label(top, text=display_text, font=("Arial", 15)).place(x=120, y=130)
+
+        
 
 if __name__ == '__main__':
     master = tk.Tk()
@@ -138,7 +140,7 @@ if __name__ == '__main__':
     master.geometry(str(window_width) + 'x' + str(window_height))  # master.geometry('500x600')
     master.resizable(0, 0)  # can not change the size of the window
     app = Application(window_width, window_height, master=master)
-    open_popout()
+    # open_popout()
     app.mainloop()
     # mainloop() tells Python to run the Tkinter event loop. This method listens for events, such as button clicks or keypresses,
     # and blocks any code that comes after it from running until the window it's called on is closed.
